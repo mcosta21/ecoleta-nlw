@@ -52,7 +52,6 @@ const CreatePoint = () => {
     const [selectedCity, setSelectedCity] = useState('0');
     const [selectedPosition, setSelectedPosition] = useState<[number, number]>([0, 0])
     const [selectedItems, setSelectedItems] = useState<number[]>([]);
-    const [pointAlreadyExists, setPointAlreadyExists] = useState<Point[]>([]);
 
     const history = useHistory();
 
@@ -126,6 +125,16 @@ const CreatePoint = () => {
         }
     }
 
+    function handleSelectAllItems(event : ChangeEvent<HTMLInputElement>){
+        const check = event.target.checked;
+        if(check){
+            setSelectedItems(items.map(item => item.id));
+        }
+        else{
+            setSelectedItems([]);
+        }
+    }
+
     async function handleSubmit(event : FormEvent){
         event.preventDefault();
 
@@ -147,10 +156,11 @@ const CreatePoint = () => {
         };
         
         const canCreate = await validatorData(data)
-        if(canCreate === false)
+        if(canCreate === false){
             return;
-
-        //await api.post('points', data);
+        }
+            
+        await api.post('points', data);
         alert('Ponto de coleta criado!');
         history.push('/');
     }
@@ -181,15 +191,17 @@ const CreatePoint = () => {
             return false;
         }
         
-        await api.get('points', { params: { name: data.name }}).then(response => {
-            setPointAlreadyExists(response.data)
-            console.log(response.data)
+        const pointAlreadyExists = await api.get('points', {
+            params: { city: data.city, uf: data.uf, items: '', name: data.name },
+        }).then(response => {
+            return response.data.length;
         });
 
-        //if(pointAlreadyExists.length > 0){
-            console.log(pointAlreadyExists.length)
-        //}
-
+        if(pointAlreadyExists > 0){
+            alert('Ponto de coleta já cadastrado.');
+            return false;
+        }
+        
         return true;
     }
 
@@ -256,6 +268,16 @@ const CreatePoint = () => {
                         <Marker position={selectedPosition} />
                     </Map>
 
+                    <div className="field">
+                        <label htmlFor="address">Endereço</label>
+                        <input 
+                            type="text"
+                            name="address"
+                            id="address"
+                            disabled={true}
+                            />
+                    </div>
+
                     <div className="field-group">
                         <div className="field">
                             <label htmlFor="uf">Estado (UF)</label>
@@ -300,10 +322,17 @@ const CreatePoint = () => {
                         
                     </ul>
                 </fieldset>
-
-                <button type="submit">
-                    Cadastrar ponto de coleta
-                </button>
+                
+                <div id="page-submit-point">
+                    <div className="check-select-all">
+                        <input type="checkbox" id="selectAllItems" name="selectAllItems" onChange={handleSelectAllItems} value='0'/>
+                        <label htmlFor="selectAllItems"> Selecionar todos os itens.</label><br></br>
+                    </div>
+                    <button type="submit">
+                        Cadastrar ponto de coleta
+                    </button>
+                </div>
+                
 
             </form>
         </div>

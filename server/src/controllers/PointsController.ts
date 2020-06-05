@@ -5,14 +5,14 @@ class PointsController {
 
     async index(request : Request, response : Response) {
         const { city, uf, items, name } = request.query;
-
+        
         const parsedItems = String(items)
             .split(',')
             .map(item => Number(item.trim()));
-            
+
         const points = await knex('points')
-            .join('point_items', 'points.id', '=', 'point_items.point_id')
-            .where('city', 'like', '%' + String(city) + '%')
+            .leftJoin('point_items', 'points.id', '=', 'point_items.point_id')
+            .whereRaw("LOWER(city) like '%' || LOWER(?) || '%' ", String(city).toLocaleLowerCase())
             .distinct()
             .modify(builder => {
                 if(items !== ''){
@@ -21,7 +21,7 @@ class PointsController {
                 if(uf !== '')
                     builder.where('uf', String(uf))
                 if(name !== '')
-                    builder.where('name', String(name))
+                    builder.whereRaw("LOWER(name) = LOWER(?)", String(name).toLocaleLowerCase())
             })
             .select('points.*');
         return response.json(points);
