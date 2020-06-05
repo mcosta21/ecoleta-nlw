@@ -1,0 +1,14 @@
+
+// JSX: Sintaxe de XML dentro do JavaScript
+
+// array ou objeto: manulamente informar o tipo da variável
+
+
+// EXTRAS
+
+INPUT MASK
+import InputMask from 'react-input-mask';
+npm install react-input-mask
+npm install @types/react-input-mask
+
+https://www.figma.com/file/1SxgOMojOB2zYT0Mdk28lB/Ecoleta
