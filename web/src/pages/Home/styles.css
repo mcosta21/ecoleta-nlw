@@ -23,7 +23,7 @@
 #page-home .content main {
   flex: 1;
   max-width: 560px;
-
+  margin-top: 80px;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -35,7 +35,7 @@
 }
 
 #page-home .content main p {
-  font-size: 24px;
+  font-size: 20px;
   margin-top: 24px;
   line-height: 38px;
 }
@@ -43,11 +43,11 @@
 #page-home .content main a {
   width: 100%;
   max-width: 360px;
-  height: 72px;
+  height: 64px;
   background: var(--primary-color);
   border-radius: 8px;
   text-decoration: none;
-
+  font-size: 14px;
   display: flex;
   align-items: center;
   overflow: hidden;
@@ -104,4 +104,23 @@
   #page-home .content main p {
     font-size: 24px;
   }
+}
+
+.button-group{
+  display: flex;
+  flex: 1;
+}
+
+#page-home .content main .button-secondary{
+  background-color: transparent;
+}
+
+#page-home .content main .button-secondary:hover{
+  text-decoration: underline;
+  background-color: transparent;
+}
+
+#page-home .content main .button-secondary strong {
+  text-align: center;
+  color: #6c6c80;
 }

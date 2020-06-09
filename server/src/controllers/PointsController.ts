@@ -1,6 +1,20 @@
 import { Request, Response} from 'express';
 import knex from '../database/connection';
 
+import config from '../services/config'
+
+interface Point {
+    id: string,
+    image: string,
+    name: string,
+    email: string,
+    whatsapp: string,
+    latitude: number,
+    longitude: number,
+    city: string,
+    uf: string
+}
+
 class PointsController {
 
     async index(request : Request, response : Response) {
@@ -14,9 +28,6 @@ class PointsController {
             .leftJoin('point_items', 'points.id', '=', 'point_items.point_id')
             .whereRaw("LOWER(city) like '%' || LOWER(?) || '%' ", String(city).toLocaleLowerCase())
             .distinct()
-            .select('points.*');
-
-            /*
             .modify(builder => {
                 if(items !== ''){
                     builder.whereIn('point_items.item_id', parsedItems)
@@ -25,12 +36,13 @@ class PointsController {
                     builder.where('uf', String(uf))
                 if(name !== '')
                     builder.whereRaw("LOWER(name) = LOWER(?)", String(name).toLocaleLowerCase())
-            })*/
+            })
+            .select('points.*');
 
-            const serializedPoints = points.map(point => {
+            const serializedPoints = points.map((point : Point) => {
                 return {
                     ...point,
-                    image_url: `http://192.168.1.4:3333/uploads/${point.image}`,
+                    image_url: `${config.baseURL}/uploads/${point.image}`,
                 }
             });
 
@@ -50,7 +62,7 @@ class PointsController {
 
         const serializedPoint = {
             ...point,
-            image_url: `http://192.168.1.5:3333/uploads/${point.image}`,
+            image_url: `${config.baseURL}/uploads/${point.image}`,
         }
 
         const items = await knex('items')
@@ -100,7 +112,7 @@ class PointsController {
             .map((item_id : number) => {
             return {
                 item_id,
-                point_id: insertedIds[0]
+                point_id
             };
         });
     

@@ -1,12 +1,26 @@
-import React from 'react';
-import { FiLogIn } from 'react-icons/fi'
+import React, { useState } from 'react';
+import { FiSearch } from 'react-icons/fi'
 import { Link } from 'react-router-dom';
 import './styles.css'
 import logo from '../../assets/logo.svg';
+import SearchPoints from '../../components/SearchPoints';
 
 const Home = () => {
+
+    const [searchPoints, setSearchPoints] = useState<boolean>(false);
+
+    function handleSearchPoints(){
+        setSearchPoints(true);
+    }
+
     return (
         <div id="page-home">
+            {
+                searchPoints
+                ?   <SearchPoints />
+                :
+                <h1>teste</h1>
+            }
             <div className="content">
                 <header>
                      <img src={logo} alt="Ecoleta"/> 
@@ -15,14 +29,21 @@ const Home = () => {
                 <main>
                     <h1>Seu marketplace de coleta de residuos</h1>
                     <p>Ajudamos pessoas a encontrarem pontos de coleta de forma eficiente.</p>
-                    <Link to="/create-point">
-                        <span>
-                            <FiLogIn />
-                        </span>
-                        <strong>
-                           Cadastre um ponto de coleta 
-                        </strong>
-                    </Link>
+                    <div className="button-group">
+                        <Link to="/" onClick={handleSearchPoints}>
+                            <span>
+                                <FiSearch />
+                            </span>
+                            <strong>
+                            Pesquisar pontos de coleta 
+                            </strong>
+                        </Link>
+                        <Link className="button-secondary" to="/create-point">
+                            <strong>
+                            Cadastrar um ponto de coleta 
+                            </strong>
+                        </Link>
+                    </div>
                 </main>
             </div>
         </div>

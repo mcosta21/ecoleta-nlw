@@ -8,6 +8,7 @@ import api from '../../services/api';
 import axios from 'axios';
 import { LeafletMouseEvent } from 'leaflet';
 import InputMask from 'react-input-mask';
+import Dropzone from '../../components/Dropzone';
 
 interface Item {
     id: number,
@@ -51,6 +52,7 @@ const CreatePoint = () => {
     const [selectedCity, setSelectedCity] = useState('0');
     const [selectedPosition, setSelectedPosition] = useState<[number, number]>([0, 0])
     const [selectedItems, setSelectedItems] = useState<number[]>([]);
+    const [selectedFile, setSelectedFile] = useState<File>();
 
     const history = useHistory();
 
@@ -145,17 +147,22 @@ const CreatePoint = () => {
         const city = selectedCity;
         const [ latitude, longitude ] = selectedPosition;
         const items = selectedItems;
+        const image = selectedFile;
 
-        const data = {
-            name,
-            email,
-            whatsapp,
-            uf,
-            city,
-            latitude,
-            longitude,
-            items
-        };
+        const data = new FormData();
+        
+        data.append('name', name);
+        data.append('email', email);
+        data.append('whatsapp', whatsapp);
+        data.append('uf', uf);
+        data.append('city', city);
+        data.append('latitude', String(latitude));
+        data.append('longitude', String(longitude));
+        data.append('items', items.join(','));
+
+        if(image){
+            data.append('image', image);
+        }
         
         const canCreate = await validatorData(data)
         if(canCreate === false){
@@ -167,34 +174,35 @@ const CreatePoint = () => {
         history.push('/');
     }
 
-    async function validatorData(data : Point){
-        if(data.name === ''){
+    async function validatorData(data : FormData){
+        if(data.get('name') === ''){
             alert('Nome da entidade não informado.');
             return false;
         }
-        if(data.email === ''){
+        if(data.get('email') === ''){
             alert('E-mail não informado.');
             return false;
         }
-        if(data.whatsapp === ''){
+        if(data.get('whatsapp') === ''){
             alert('Whatsapp não informado.');
             return false;
         }
-        if(data.uf === '0'){
+        if(data.get('uf') === '0'){
             alert('Estado não informado.');
             return false;
         }
-        if(data.city === '0'){
+        if(data.get('city') === '0'){
             alert('Cidade não informada.');
             return false;
         }
-        if(data.items.length === 0){
+        if(data.get('items') === null){
             alert('Nenhum item de coleta informado.');
             return false;
         }
         
+        /*
         const pointAlreadyExists = await api.get('points', {
-            params: { city: data.city, uf: data.uf, items: '', name: data.name },
+            params: { city: data.get('city'), uf: data.get('uf'), items: '', name: data.get('name') },
         }).then(response => {
             return response.data.length;
         });
@@ -203,7 +211,7 @@ const CreatePoint = () => {
             alert('Ponto de coleta já cadastrado.');
             return false;
         }
-        
+        */
         return true;
     }
 
@@ -218,6 +226,8 @@ const CreatePoint = () => {
             </header>
             <form onSubmit={handleSubmit}>
                 <h1>Cadastro do ponto <br/> de coleta</h1>
+
+                <Dropzone onFileUploaded={setSelectedFile}/>
 
                 <fieldset>
                     <legend>

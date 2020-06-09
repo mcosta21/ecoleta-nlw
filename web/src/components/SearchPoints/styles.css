@@ -1,0 +1,56 @@
+#component-search {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    background: #000000d6;
+
+    display: flex;
+    justify-content: center;
+}
+
+#component-search form h2 {
+    font-size: 36px;
+    opacity: 1;
+    color: white
+  }
+  
+  #component-search form fieldset {
+    margin-top: 64px;
+    min-inline-size: auto;
+    border: 0;
+  }
+  
+  #component-search form legend {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 40px;
+  }
+  
+  #component-search form legend h2 {
+    font-size: 24px;
+  }
+  
+  #component-searchform legend span {
+    font-size: 14px;
+    font-weight: normal;
+    color: var(--text-color);
+  }
+
+#component-search form .field select {
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    flex: 1;
+    background: #F0F0F5;
+    border-radius: 8px;
+    border: 0;
+    padding: 16px 24px;
+    font-size: 16px;
+    color: #6C6C80;
+  }
+  
+  #component-search  form .field input::placeholder {
+    color: #A0A0B2;
+  }
