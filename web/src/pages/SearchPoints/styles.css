@@ -1,0 +1,88 @@
+
+body {
+    background-color: white;
+}
+
+#page-search {
+  width: 100%;
+  max-width: 1100px;
+  margin: 0 auto;
+}
+
+#tag-gray {
+    position: absolute;
+    width: 100%;
+    height: 400px;
+    background-color: #F0F0F5;
+    z-index: -1;
+    top: 0;
+}
+
+#page-search header {
+    margin-top: 48px;
+
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+#page-search header a {
+    color: var(--title-color);
+    font-weight: bold;
+    text-decoration: none;
+
+    display: flex;
+    align-items: center;
+}
+
+#page-search header a svg {
+    margin-right: 16px;
+    color: var(--primary-color);
+}
+
+#page-search main {
+    margin-top: 70px;
+
+}
+
+#page-search main fieldset {
+    border: 0;
+}
+
+#page-search .item-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 16px;
+    list-style: none;
+    margin-top: 40px;
+
+    
+}
+
+#page-search .item-grid li {
+    margin: 30px 0;
+    padding: 0 20px 0 0px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    cursor: pointer;
+}
+
+#page-search .item-grid li img{
+    border-radius: 14px;
+    max-width: 345px;
+}
+
+#page-search .item-grid h1{
+    margin-top: 20px;
+}
+
+#page-search .item-grid h3{
+    margin-top: 20px;
+    color: #34CB79
+}
+
+#page-search .item-grid p{
+    margin-top: 20px;
+    font-size: 15px;
+}

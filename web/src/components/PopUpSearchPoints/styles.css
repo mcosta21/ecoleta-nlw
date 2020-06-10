@@ -8,10 +8,14 @@
     justify-content: center;
 }
 
+#component-search .container{
+  width: 480px;
+}
+
 #component-search form h2 {
     font-size: 36px;
     opacity: 1;
-    color: white
+    color: white;
   }
   
   #component-search form fieldset {
@@ -22,13 +26,12 @@
   
   #component-search form legend {
     width: 100%;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
     margin-bottom: 40px;
+    text-align: center;
   }
   
   #component-search form legend h2 {
+    margin-top: 140px;
     font-size: 24px;
   }
   
@@ -49,6 +52,7 @@
     padding: 16px 24px;
     font-size: 16px;
     color: #6C6C80;
+    width: 100%;
   }
   
   #component-search  form .field input::placeholder {
